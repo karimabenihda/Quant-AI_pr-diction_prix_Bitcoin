@@ -2,3 +2,6 @@ __pycache__
 venv
 .env
 data
+myvenv
+btc_minute_data.parquet
+.pytest_cache
