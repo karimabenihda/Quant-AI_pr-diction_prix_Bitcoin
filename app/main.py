@@ -75,6 +75,7 @@ def create_user(user: UserLogin, db: Session = Depends(get_db)):
     return user
 
 # 🔹 Endpoint pour login
+
 @app.post("/login", response_model=Token)
 def login(
     form_data: OAuth2PasswordRequestForm = Depends(),
