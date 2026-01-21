@@ -10,7 +10,6 @@ from dotenv import load_dotenv
 
 from schemas import UserLogin, Token
 from model import User
-
 from jose import jwt
 
 load_dotenv() 

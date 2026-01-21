@@ -1,1 +1,10 @@
 pyspark
+
+fastapi
+sqlalchemy
+passlib
+dotenv
+python-jose
+pydantic 
+
+psycopg2
