@@ -1,3 +1,4 @@
+
 psycopg2-binary
 pyspark
 
@@ -8,3 +9,12 @@ dotenv
 python-jose
 pydantic 
 psycopg2
+
+pyspark==3.5.0 
+pandas 
+fastparquet 
+matplotlib
+requests
+pyarrow
+seaborn
+ 
