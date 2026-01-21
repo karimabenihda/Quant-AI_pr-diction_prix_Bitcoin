@@ -1,5 +1,10 @@
-pyspark
-dotenv 
-sqlalchemy 
-pydantic
 psycopg2-binary
+pyspark
+
+fastapi
+sqlalchemy
+passlib
+dotenv
+python-jose
+pydantic 
+psycopg2
