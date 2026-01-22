@@ -1,1 +1,30 @@
+psycopg2-binary
 pyspark
+
+fastapi
+sqlalchemy
+passlib
+dotenv
+python-jose
+pydantic 
+
+
+pyspark==3.5.0 
+pandas 
+fastparquet 
+matplotlib
+requests
+pyarrow
+seaborn
+ 
+#  pyspark
+ pandas 
+ fastparquet 
+ matplotlib
+ requests
+ pyarrow
+ seaborn
+#  lightgbm
+#  sudo apt install -y libgomp1
+scikit-learn
+ 
