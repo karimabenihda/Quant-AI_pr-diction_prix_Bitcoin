@@ -5,7 +5,13 @@
  requests
  pyarrow
  seaborn
+<<<<<<< HEAD
 #  lightgbm
 #  sudo apt install -y libgomp1
 scikit-learn
+=======
+ apache-airflow
+
+
+>>>>>>> 0218304 (update name of col return)
  
