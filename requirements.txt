@@ -5,4 +5,7 @@
  requests
  pyarrow
  seaborn
+#  lightgbm
+#  sudo apt install -y libgomp1
+scikit-learn
  
