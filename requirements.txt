@@ -8,6 +8,7 @@ dotenv
 python-jose
 pydantic 
 
+#  pyspark
 
 pyspark==3.5.0 
 pandas 
@@ -16,15 +17,12 @@ matplotlib
 requests
 pyarrow
 seaborn
- 
-#  pyspark
- pandas 
- fastparquet 
- matplotlib
- requests
- pyarrow
- seaborn
+
+
+
 #  lightgbm
 #  sudo apt install -y libgomp1
 scikit-learn
  
+apache-airflow
+
