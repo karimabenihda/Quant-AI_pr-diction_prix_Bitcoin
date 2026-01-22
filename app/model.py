@@ -11,6 +11,7 @@ class User(Base):
     password = Column(String, nullable=False)
 
 class Btc(Base):
+    __tablename__ = "predictions"
     open_time=Column(DateTime),
     open=Column(Float),
     high=Column(Float),
@@ -22,7 +23,7 @@ class Btc(Base):
     number_of_trades=Column(Float),
     taker_buy_base_volume=Column(Float),
     taker_buy_quote_volume=Column(Float),
-    close_t_plus_10=Column(Float),
+    # close_t_plus_10=Column(Float),
     ma_05=Column(Float),
     ma_10=Column(Float),
     taker_ratio=Column(Float),

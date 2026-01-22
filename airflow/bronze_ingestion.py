@@ -21,14 +21,14 @@ def bronze_ingestion_dag():
 
     @task
     def fetch_data():
-    import requests
-    import pandas as pd
+        import requests
+        import pandas as pd
 
     SYMBOL = 'BTCUSDT'
     INTERVAL = '1m'
     LIMIT = 600
 
-        def data_collection_api():
+    def data_collection_api():
             response = requests.get(
                 url='https://api.binance.com/api/v3/klines',
                 params={"symbol": SYMBOL, "interval": INTERVAL, "limit": LIMIT}
@@ -50,7 +50,7 @@ def bronze_ingestion_dag():
             df["close_time"] = pd.to_datetime(df["close_time"], unit="ms").astype('datetime64[us]')
             return df
 
-        return data_collection_api()
+            data_collection_api()
 
     @task
     def save_bronze(data):
