@@ -5,7 +5,13 @@
  requests
  pyarrow
  seaborn
+<<<<<<< HEAD
  apache-airflow
 
 
+=======
+#  lightgbm
+#  sudo apt install -y libgomp1
+scikit-learn
+>>>>>>> 5db8f93 (requirements file updated)
  
