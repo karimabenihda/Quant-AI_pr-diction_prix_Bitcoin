@@ -17,13 +17,6 @@ requests
 pyarrow
 seaborn
  
-#  pyspark
- pandas 
- fastparquet 
- matplotlib
- requests
- pyarrow
- seaborn
 #  lightgbm
 #  sudo apt install -y libgomp1
 scikit-learn
