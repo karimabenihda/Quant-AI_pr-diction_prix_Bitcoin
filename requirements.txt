@@ -1,5 +1,5 @@
 psycopg2-binary
-pyspark
+
 
 fastapi
 sqlalchemy
@@ -8,9 +8,7 @@ dotenv
 python-jose
 pydantic 
 
-#  pyspark
 
-pyspark==3.5.0 
 pandas 
 fastparquet 
 matplotlib
@@ -18,11 +16,13 @@ requests
 pyarrow
 seaborn
 
+apache-airflow
 
 
 #  lightgbm
 #  sudo apt install -y libgomp1
-scikit-learn
  
-apache-airflow
-
+#  lightgbm
+#  sudo apt install -y libgomp1
+ 
+  

@@ -8,9 +8,10 @@ from datetime import datetime, timedelta
 import os
 from dotenv import load_dotenv
 
-from schemas import UserLogin, Token
+from schemas import UserLogin, Token,BtcInput
 from model import User
-
+import joblib
+import numpy as np
 from jose import jwt
 
 load_dotenv() 
@@ -96,3 +97,33 @@ def login(
         "token_type": "bearer"
     }
 
+MODEL_PATH = "../Machine_Learning/random_forest_model.joblib"
+rf_model = joblib.load(MODEL_PATH)
+
+
+@app.post("/predict_close_t_plus_10")
+def predict_close(input_data: BtcInput):
+    # convert datetime to float (timestamp)
+    quote_ts = input_data.quote_asset_volume.timestamp()
+    
+    # create feature array in the same order as training
+    X = np.array([[ 
+        input_data.open,
+        input_data.high,
+        input_data.low,
+        input_data.close,
+        input_data.volume,
+        quote_ts,  # converted datetime
+        input_data.number_of_trades,
+        input_data.taker_buy_base_volume,
+        input_data.taker_buy_quote_volume,
+        input_data.returns_col,
+        input_data.ma_05,
+        input_data.ma_10,
+        input_data.taker_ratio
+    ]])
+    
+    # predict
+    pred = rf_model.predict(X)
+    
+    return {"close_t_plus_10": float(pred[0])}
