@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException, status
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from passlib.context import CryptContext
@@ -7,7 +7,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from datetime import datetime, timedelta
 import os
 from dotenv import load_dotenv
-
+import psycopg2
 from schemas import UserLogin, Token,BtcInput
 from model import User
 import joblib
@@ -28,7 +28,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES =  os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")
 
 
 DATABASE_URL = f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-print("DATABASE_URL:", DATABASE_URL)
+# print("DATABASE_URL:", DATABASE_URL)
 
 engine = create_engine(DATABASE_URL)
 
@@ -44,6 +44,9 @@ def get_db():
         db.close()
 
 app=FastAPI()
+
+MODEL_PATH = "../Machine_Learning/random_forest_model.joblib"
+rf_model = joblib.load(MODEL_PATH)
 
 Base.metadata.create_all(bind=engine)
 
@@ -97,9 +100,6 @@ def login(
         "token_type": "bearer"
     }
 
-MODEL_PATH = "../Machine_Learning/random_forest_model.joblib"
-rf_model = joblib.load(MODEL_PATH)
-
 
 @app.post("/predict_close_t_plus_10")
 def predict_close(input_data: BtcInput):
@@ -127,3 +127,39 @@ def predict_close(input_data: BtcInput):
     pred = rf_model.predict(X)
     
     return {"close_t_plus_10": float(pred[0])}
+
+
+
+
+def get_connection():
+    return psycopg2.connect(
+        host=DB_HOST,
+        database=DB_NAME,
+        user=DB_USER,
+        password=DB_PASSWORD
+    )
+
+@app.get("/avg_prix_close")
+@app.get("/avg_prix_close")
+def avg_prix_close():
+    conn = get_connection()
+    cur = conn.cursor()
+    
+    query = """
+        SELECT AVG(close) AS moyenne_close
+        FROM bitcoin_gold;
+    """
+    
+    cur.execute(query)
+    result = cur.fetchone()
+    cur.close()
+    conn.close()
+    
+    return {"moyenne_close": float(result[0])}
+
+@app.get("/analytics/total_volume_trades")
+def total_volume_trades():
+    with engine.connect() as conn:
+        result = conn.execute(text("SELECT SUM(volume) as total_volume, SUM(number_of_trades) as total_trades FROM bitcoin_gold"))
+        row = result.first()
+    return {"total_volume": float(row.total_volume), "total_trades": int(row.total_trades)}
