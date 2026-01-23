@@ -53,14 +53,14 @@ def load_btc_data():
 
         path = "/opt/airflow/data/bronze"
         os.makedirs(path, exist_ok=True)
-        df.to_parquet(f"{path}/btc_bronze.parquet", index=False)
+        df.to_parquet(f"{path}/btc_data_bronze.parquet", index=False)
         
         return len(df)
     
     # task bronze
     bronze_task = fetch_and_save()
 
-    # 🔔 TRIGGER GOLD DAG
+    # TRIGGER GOLD DAG
     trigger_gold = TriggerDagRunOperator(
         task_id="trigger_gold_dag",
         trigger_dag_id="btc_gold_processing"
