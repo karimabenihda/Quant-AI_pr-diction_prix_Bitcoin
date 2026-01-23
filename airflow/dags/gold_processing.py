@@ -1,4 +1,4 @@
-from airflow import dag
+from airflow.decorators import dag
 from airflow.operators.python import PythonOperator
 from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 from datetime import datetime

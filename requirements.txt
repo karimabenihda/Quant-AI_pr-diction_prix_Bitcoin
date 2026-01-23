@@ -15,7 +15,7 @@ matplotlib
 requests
 pyarrow
 seaborn
-
+scikit-learn
 apache-airflow
 
 

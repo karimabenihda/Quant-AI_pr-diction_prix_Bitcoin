@@ -1,5 +1,4 @@
-from airflow import DAG
-from airflow.decorators import task
+from airflow.decorators import dag,task
 from airflow.utils.dates import days_ago
 
 from pyspark.sql import SparkSession
@@ -23,19 +22,19 @@ LABEL_COL = "close_t_plus_10"
 # =============================
 # DAG
 # =============================
-with DAG(
+@dag(
     dag_id="ml_random_forest_from_gold",
     start_date=days_ago(1),
     schedule_interval=None,
     catchup=False,
     tags=["ml", "random_forest", "gold"]
-):
+)
 
     # -----------------------------
     # 1. Charger les données GOLD
     # -----------------------------
-    @task
-    def load_gold_data():
+@task
+def load_gold_data():
         spark = SparkSession.builder.appName("ML-Gold").getOrCreate()
 
         df = spark.read.format("parquet").load(
@@ -47,8 +46,8 @@ with DAG(
     # ----------------------------------
     # 2. Split temporel train / test
     # ----------------------------------
-    @task
-    def train_test_split_time(df, train_ratio=0.8):
+@task
+def train_test_split_time(df, train_ratio=0.8):
         total_rows = df.count()
         train_count = int(total_rows * train_ratio)
 
@@ -60,8 +59,8 @@ with DAG(
     # ----------------------------------
     # 3. Spark → Pandas
     # ----------------------------------
-    @task
-    def spark_to_xy(train_df, test_df):
+@task
+def spark_to_xy(train_df, test_df):
         train_pdf = train_df.select(FEATURE_COLS + [LABEL_COL]).toPandas()
         test_pdf = test_df.select(FEATURE_COLS + [LABEL_COL]).toPandas()
 
@@ -76,8 +75,8 @@ with DAG(
     # ----------------------------------
     # 4. Entraînement Random Forest
     # ----------------------------------
-    @task
-    def train_random_forest(X_train, y_train):
+@task
+def train_random_forest(X_train, y_train):
         model = RandomForestRegressor(
             n_estimators=300,
             max_depth=10,
@@ -92,8 +91,8 @@ with DAG(
     # ----------------------------------
     # 5. Évaluation
     # ----------------------------------
-    @task
-    def evaluate_model(model, X_test, y_test):
+@task
+def evaluate_model(model, X_test, y_test):
         predictions = model.predict(X_test)
 
         mae = mean_absolute_error(y_test, predictions)
@@ -113,10 +112,10 @@ with DAG(
     # ----------------------------------
     # 6. Sauvegarde du modèle
     # ----------------------------------
-    @task
-    def save_model(model):
-        dump(model, "/models/random_forest_model.joblib")
-        print("Modèle Random Forest sauvegardé")
+@task
+def save_model(model):
+    dump(model, "/models/random_forest_model.joblib")
+    print("Modèle Random Forest sauvegardé")
 
     # =============================
     # ORCHESTRATION
