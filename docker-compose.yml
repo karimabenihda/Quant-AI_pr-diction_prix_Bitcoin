@@ -41,6 +41,7 @@ services:
       - ./plugins:/opt/airflow/plugins
       - ./requirements.txt:/requirements.txt  
       - ./data:/opt/airflow/data   
+
     command: >
       bash -c "
         pip install --no-cache-dir -r /requirements.txt &&

@@ -51,7 +51,7 @@ def load_btc_data():
     def save_bronze(data):
         df = pd.DataFrame(data)
 
-        path = "/opt/airflow/data/bronze"
+        path = "/opt/airflow/data"
         os.makedirs(path, exist_ok=True)
         df.to_parquet(f"{path}/btc_data_bronze.parquet", index=False)
         

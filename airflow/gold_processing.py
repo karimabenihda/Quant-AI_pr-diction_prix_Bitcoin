@@ -16,7 +16,7 @@ def dag_gold_processing():
         .getOrCreate()
     
     #lire data bronze
-    df = spark.read.parquet("/opt/airflow/data/bronze/btc_data_bronze.parquet")
+    df = spark.read.parquet("/opt/airflow/data/btc_data_bronze.parquet")
 
     #fenetre temporelle
     window =Window.orderBy("open_time")
@@ -60,9 +60,9 @@ def dag_gold_processing():
     #drop column ignore
     df = df.drop("ignore")
 
-    # 🔹 Sauvegarde SILVER
+    # 🔹 Sauvegarde Gold
     df.write.mode("overwrite").parquet(
-        "/opt/airflow/data/silver/btc_silver.parquet"
+        "/opt/airflow/data/btc_gold.parquet"
     )
 
     spark.stop()

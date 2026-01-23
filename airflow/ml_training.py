@@ -39,7 +39,7 @@ with DAG(
         spark = SparkSession.builder.appName("ML-Gold").getOrCreate()
 
         df = spark.read.format("parquet").load(
-            "/data/data_gold"
+            "/opt/airflow/data/silver/btc_gold.parquet"
         )
 
         return df

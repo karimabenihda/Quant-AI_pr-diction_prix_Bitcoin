@@ -140,7 +140,6 @@ def get_connection():
     )
 
 @app.get("/avg_prix_close")
-@app.get("/avg_prix_close")
 def avg_prix_close():
     conn = get_connection()
     cur = conn.cursor()
