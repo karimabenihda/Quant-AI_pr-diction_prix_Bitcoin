@@ -1,24 +1,19 @@
-from airflow.decorators import dag , task
-import pandas as pd
+from airflow.decorators import dag, task
+from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 from datetime import datetime
+import pandas as pd
+import requests
 import os
 
-
-
-
-SYMBOL = "BTCUSDT"
-INTERVAL = "1m"
-LIMIT = 600
-
 @dag(
-    dag_id="btc_bronze_ingestion",
+    dag_id="btc_bronze_load",
     start_date=datetime(2026, 1, 1),
     schedule="*/10 * * * *",
     catchup=False,
     tags=["bronze", "bitcoin"]
 )
-def bronze_ingestion_dag():
-
+def load_btc_data():
+    
     @task
     def fetch_data():
         import requests
@@ -58,11 +53,20 @@ def bronze_ingestion_dag():
 
         path = "/opt/airflow/data/bronze"
         os.makedirs(path, exist_ok=True)
+        df.to_parquet(f"{path}/btc_bronze.parquet", index=False)
+        
+        return len(df)
+    
+    # task bronze
+    bronze_task = fetch_and_save()
 
-        file_path = f"{path}/btc_bronze.parquet"
-        df.to_parquet(file_path, index=False)
+    # 🔔 TRIGGER GOLD DAG
+    trigger_gold = TriggerDagRunOperator(
+        task_id="trigger_gold_dag",
+        trigger_dag_id="btc_gold_processing"
+    )
 
-    raw_data = fetch_data()
-    save_bronze(raw_data)
+    bronze_task >> trigger_gold
 
-bronze_ingestion_dag()
+
+load_btc_data()
