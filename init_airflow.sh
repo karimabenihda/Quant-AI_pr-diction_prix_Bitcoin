@@ -6,10 +6,10 @@ airflow db init
 
 # Créer l'utilisateur Admin
 airflow users create \
-    --username admin1 \
-    --password admin1 \
-    --firstname Admin1 \
-    --lastname User1 \
+    --username admin2 \
+    --password admin2 \
+    --firstname Admin2 \
+    --lastname User2 \
     --role Admin \
-    --email admin1@example.com
+    --email admin2s@example.com
 
