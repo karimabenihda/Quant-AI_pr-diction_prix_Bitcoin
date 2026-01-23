@@ -10,19 +10,26 @@ class User(Base):
     email = Column(String, unique=True, index=True, nullable=False)
     password = Column(String, nullable=False)
 
-class Btc(Base):
 
-    open=Column(Float),
-    high=Column(Float),
-    low=Column(Float),
-    close=Column(Float),
-    volume=Column(Float),
-    quote_asset_volume=Column(DateTime),
-    number_of_trades=Column(Float),
-    taker_buy_base_volume=Column(Float),
-    taker_buy_quote_volume=Column(Float),
-    returns_col=Column(Float),
-    ma_05=Column(Float),
-    ma_10=Column(Float),
-    taker_ratio=Column(Float),
+
+class Btc(Base):
+    __tablename__ = "bitcoin_gold"
+    id = Column(Integer, primary_key=True, index=True)
+    open_time=Column(DateTime)
+    open=Column(Float)
+    high=Column(Float)
+    low=Column(Float)
+    close=Column(Float)
+    volume=Column(Float)
+    close_time=Column(Float)
+    quote_asset_volume=Column(DateTime)
+    number_of_trades=Column(Float)
+    taker_buy_base_volume=Column(Float)
+    taker_buy_quote_volume=Column(Float)
+    close_t_plus_10=Column(Float)
+    returns_col=Column(Float)
+    ma_05=Column(Float)
+    ma_10=Column(Float)
+    taker_ratio=Column(Float)
+
        
